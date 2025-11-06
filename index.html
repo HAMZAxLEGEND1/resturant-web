@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sam Restaurant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<style>
+   /* Base Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+/* Navigation */
+nav {
+    background: rgba(204, 85, 0, 0.6);
+    padding: 0.5rem 1rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav a.nav-brand {
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-decoration: none;
+}
+
+.burger {
+    font-size: 1.5rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background: #333;
+    color: white;
+    padding: 20px;
+    transition: 0.3s;
+    z-index: 1100;
+    overflow-y: auto;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar h2 {
+    color: rgba(204, 85, 0, 0.6);
+    margin-bottom: 30px;
+    font-size: 1.3rem;
+}
+
+.sidebar a {
+    display: block;
+    color: white;
+    padding: 10px 0;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s;
+    font-size: 1rem;
+}
+
+.sidebar a:hover {
+    color: rgba(204, 85, 0, 0.6);
+}
+
+.main-content {
+    margin-top: 60px;
+}
+
+/* Hero Section - Mobile Optimized */
+.hero {
+    position: relative;
+    height: 50vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+}
+
+.hero .carousel-item img {
+    width: 100%;
+    height: 50vh;
+    object-fit: cover;
+    transform: scale(1);
+    transition: transform 4.8s ease-in-out;
+}
+
+@keyframes zoomIn {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.08);
+    }
+}
+
+.carousel-item.active img {
+    animation: zoomIn 5s ease-in-out forwards;
+}
+
+/* Caption text animation - Mobile Adjusted */
+.hero .carousel-caption {
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%) translateY(100%);
+    opacity: 0;
+    transition: transform 1.2s ease, opacity 1.2s ease;
+    width: 90%;
+    padding: 0 10px;
+}
+
+.carousel-item.active .carousel-caption {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    transition-delay: 0.3s;
+}
+
+/* Button inside caption - Mobile Adjusted */
+.hero .carousel-caption .btn {
+    margin-top: 10px;
+    padding: 8px 20px;
+    font-size: 1rem;
+    background: rgba(204, 85, 0, 0.6);
+    border: none;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.hero .carousel-caption .btn:hover {
+    background: rgba(255, 180, 50, 0.9);
+    color: #000000;
+}
+
+/* Hero headings and paragraph - Mobile Adjusted */
+.hero h1 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6);
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 1rem;
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
+}
+
+/* Section Padding - Mobile Adjusted */
+.section {
+    padding: 40px 15px;
+}
+
+/* Menu Tabs - Mobile Optimized */
+.menu-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.menu-tabs button {
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background: rgba(204, 85, 0, 0.6);
+    color: white;
+    transition: 0.3s;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.menu-tabs button.active {
+    background: #333;
+    color: white;
+}
+
+.menu-item {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.menu-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.menu-item img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Gallery - Mobile Optimized */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.gallery-item img {
+    width: 100%;
+    display: block;
+    transition: transform 0.5s;
+    height: 150px;
+    object-fit: cover;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+.gallery-item span {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    width: 100%;
+    text-align: center;
+    padding: 8px;
+    font-weight: bold;
+    opacity: 0;
+    transition: 0.3s;
+    font-size: 0.9rem;
+}
+
+.gallery-item:hover span {
+    opacity: 1;
+}
+
+/* Offers Section - Mobile Optimized */
+.offers {
+    background: url('https://images.unsplash.com/photo-1617196033882-214d66fcf9a1') center/cover no-repeat;
+    color: white;
+    text-align: center;
+    padding: 50px 15px;
+    position: relative;
+}
+
+.offers::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.offers-content {
+    position: relative;
+    z-index: 1;
+}
+
+.offers h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+.offers p {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.offers button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    background: rgba(204, 85, 0, 0.6);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* Testimonials - Mobile Optimized */
+.testimonials {
+    background: #f8f9fa;
+    padding: 40px 15px;
+    text-align: center;
+}
+
+.testimonial-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.testimonial-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+}
+
+.testimonial-card p {
+    font-style: italic;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+}
+
+.testimonial-card .stars {
+    color: #FFD700;
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.testimonial-card h5 {
+    margin-bottom: 0;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.testimonial-card small {
+    color: #777;
+    font-size: 0.85rem;
+}
+
+/* Add Review Form - Mobile Optimized */
+.add-review {
+    width: 100%;
+    max-width: 500px;
+    margin: 30px auto 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.add-review h3 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: #333;
+    text-align: center;
+}
+
+.add-review form input,
+.add-review form textarea,
+.add-review form select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+    box-sizing: border-box;
+}
+
+.add-review form input:focus,
+.add-review form textarea:focus,
+.add-review form select:focus {
+    border-color: #ff4d4d;
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 77, 77, 0.5);
+}
+
+.add-review form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.add-review form button {
+    width: 100%;
+    padding: 10px;
+    background: #ff4d4d;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.add-review form button:hover {
+    background: rgba(204, 85, 0, 0.6);
+    color: #fff;
+}
+
+/* Footer - Mobile Optimized */
+footer {
+    background: #333;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.9rem;
+}
+
+/* Dark Mode Styles - Mobile Adjusted */
+body.dark-mode {
+    background-color: #121212;
+    color: #f5f5f5;
+}
+
+body.dark-mode nav {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+body.dark-mode .sidebar {
+    background: #222;
+}
+
+body.dark-mode .menu-item {
+    background-color: #1e1e1e;
+    color: #f5f5f5;
+}
+
+body.dark-mode .hero .carousel-caption h1,
+body.dark-mode .hero .carousel-caption p {
+    color: #fff;
+}
+
+body.dark-mode footer {
+    background: #000;
+    color: #fff;
+}
+
+body.dark-mode .btn-warning {
+    background: #ff9800;
+    color: #000;
+}
+
+body.dark-mode .testimonials {
+    background: #1e1e1e;
+}
+
+body.dark-mode .testimonial-card {
+    background: #2d2d2d;
+    color: #f5f5f5;
+}
+
+body.dark-mode .add-review {
+    background: #2d2d2d;
+    color: #f5f5f5;
+}
+
+body.dark-mode .add-review h3 {
+    color: #f5f5f5;
+}
+
+body.dark-mode .add-review form input,
+body.dark-mode .add-review form textarea,
+body.dark-mode .add-review form select {
+    background: #1e1e1e;
+    color: #f5f5f5;
+    border-color: #444;
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) {
+    .hero {
+        height: 70vh;
+    }
+    
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero p {
+        font-size: 1.2rem;
+    }
+    
+    .gallery {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    
+    .testimonial-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+/* Desktop Styles */
+@media (min-width: 992px) {
+    .hero {
+        height: 100vh;
+    }
+    
+    .hero h1 {
+        font-size: 3rem;
+    }
+    
+    .hero p {
+        font-size: 1.3rem;
+    }
+    
+    .section {
+        padding: 60px 0;
+    }
+    
+    .gallery {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+    }
+    
+    .testimonial-container {
+        gap: 30px;
+    }
+    
+    .testimonial-card {
+        padding: 20px;
+    }
+    
+    .add-review {
+        padding: 25px 30px;
+    }
+    
+    footer {
+        padding: 20px 0;
+        margin-top: 50px;
+    }
+}
+</style>
+
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <i id="modeToggle" class="fas fa-moon" style="cursor:pointer; font-size:1.3rem; color:white;"></i>
+        <a href="#" class="nav-brand">Sam Restaurant</a>
+        <i class="fas fa-bars burger" id="burger"></i>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <h2>Sam Restaurant</h2>
+        <a href="#hero">Welcome</a>
+        <a href="#menu">Menu</a>
+        <a href="#reservation">Reservation</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#offers">Special Offers</a>
+        <a href="#testimonials">Reviews</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <div class="main-content">
+
+        <!-- Hero Section -->
+        <section class="hero" id="hero">
+            <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+                <div class="carousel-inner">
+                    <!-- Slide 1 -->
+                    <div class="carousel-item active">
+                        <img src="assets/welcome1.avif" class="d-block w-100" alt="Grilled Chicken">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h1>Welcome to Sam Restaurant</h1>
+                            <p>Experience the taste of excellence</p>
+                            <a href="#menu" class="btn btn-warning btn-lg">View our Menu</a>
+                        </div>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="carousel-item">
+                        <img src="assets/welcome2.avif" class="d-block w-100" alt="Beef Steak">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h1>Delicious Main Courses</h1>
+                            <p>Freshly prepared every day</p>
+                            <a href="#menu" class="btn btn-warning btn-lg">View our Menu</a>
+                        </div>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="carousel-item">
+                        <img src="assets/welcome3.avif" class="d-block w-100" alt="Chocolate Cake">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h1>Sweet Desserts</h1>
+                            <p>Treat yourself with our desserts</p>
+                            <a href="#menu" class="btn btn-warning btn-lg">View our Menu</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Carousel Controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Menu Section -->
+        <section id="menu" class="section container">
+            <h2 class="text-center mb-5">Our Menu</h2>
+            <div class="menu-tabs mb-4">
+                <button class="active" data-category="all">All</button>
+                <button data-category="breakfast">Breakfast</button>
+                <button data-category="lunch">Lunch</button>
+                <button data-category="dinner">Dinner</button>
+                <button data-category="desserts">Desserts</button>
+                <button data-category="drinks">Drinks</button>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4 menu-item card p-3 text-center" data-category="lunch" data-name="Grilled Chicken"
+                    data-price="12.99">
+                    <img src="assets/lunch1.jpg" alt="Grilled Chicken">
+                    <h5>Grilled Chicken</h5>
+                    <p>$12.99</p>
+                    <button class="btn btn-warning add-to-cart">Add to Order</button>
+                </div>
+                <div class="col-md-4 menu-item card p-3 text-center" data-category="breakfast"
+                    data-name="Beef Roast Source" data-price="25.99">
+                    <img src="assets/breakfast2.jpg" alt="Beef Roast Source">
+                    <h5>Beef Roast Source</h5>
+                    <p>$25.99</p>
+                    <button class="btn btn-warning add-to-cart">Add to Order</button>
+                </div>
+                <div class="col-md-4 menu-item card p-3 text-center" data-category="breakfast" data-name="Pancakes"
+                    data-price="19.99">
+                    <img src="assets/breakfast3.avif" alt="Pancakes">
+                    <h5>Pancakes</h5>
+                    <p>$19.99</p>
+                    <button class="btn btn-warning add-to-cart">Add to Order</button>
+                </div>
+                <div class="col-md-4 menu-item card p-3 text-center" data-category="breakfast" data-name="Omelette"
+                    data-price="10.99">
+                    <img src="assets/breakfast3.avif" alt="Omelette">
+                    <h5>Omelette</h5>
+                    <p>$10.99</p>
+                    <button class="btn btn-warning add-to-cart">Add to Order</button>
+                </div>
+                <div class="col-md-4 menu-item card p-3 text-center" data-category="lunch" data-name="Beef Steak"
+                    data-price="18.99">
+                    <img src="assets/lunch2.jpeg" alt="Beef Steak">
+                    <h5>Beef Steak</h5>
+                    <p>$18.99</p>
+                    <button class="btn btn-warning add-to-cart">Add to Order</button>
+                </div>
+                <div class="col-md-4 menu-item card p-3 text-center" data-category="lunch" data-name="Veggie Salad"
+                    data-price="8.99">
+                    <img src="assets/lunch3.jpg" alt="Veggie Salad">
+                    <h5>Veggie Salad</h5>
+                    <p>$8.99</p>
+                    <button class="btn btn-warning add-to-cart">Add to Order</button>
+                </div>
+                <div class="col-md-4 menu-item card p-3 text-center" data-category="dinner" data-name="Biryani"
+                    data-price="19.99">
+                    <img src="assets/dinner1.avif" alt="Biryani">
+                    <h5>Biryani</h5>
+                    <p>$19.99</p>
+                    <button class="btn btn-warning add-to-cart">Add to Order</button>
+                </div>
+                <div class="col-md-4 menu-item card p-3 text-center" data-category="dinner"
+                    data-name="Butter Chicken with Naan" data-price="12.99">
+                    <img src="assets/dinner2.avif" alt="Butter Chicken with Naan">
+                    <h5>Butter Chicken with Naan</h5>
+                    <p>$12.99</p>
+                    <button class="btn btn-warning add-to-cart">Add to Order</button>
+                </div>
+                <div class="col-md-4 menu-item card p-3 text-center" data-category="dinner" data-name="Pasta Alfredo"
+                    data-price="12.99">
+                    <img src="assets/dinner3.avif" alt="Pasta Alfredo">
+                    <h5>Pasta Alfredo</h5>
+                    <p>$12.99</p>
+                    <button class="btn btn-warning add-to-cart">Add to Order</button>
+                </div>
+                <div class="col-md-4 menu-item card p-3 text-center" data-category="desserts" data-name="Chocolate Cake"
+                    data-price="7.99">
+                    <img src="assets/desserts1.jpeg" alt="Chocolate Cake">
+                    <h5>Chocolate Cake</h5>
+                    <p>$7.99</p>
+                    <button class="btn btn-warning add-to-cart">Add to Order</button>
+                </div>
+                <div class="col-md-4 menu-item card p-3 text-center" data-category="desserts" data-name="Cheesecake"
+                    data-price="6.99">
+                    <img src="assets/desserts2.avif" alt="Cheesecake">
+                    <h5>Cheesecake</h5>
+                    <p>$6.99</p>
+                    <button class="btn btn-warning add-to-cart">Add to Order</button>
+                </div>
+                <div class="col-md-4 menu-item card p-3 text-center" data-category="desserts" data-name="Ice Cream"
+                    data-price="4.99">
+                    <img src="assets/desserts3.avif" alt="Ice Cream">
+                    <h5>Ice Cream</h5>
+                    <p>$4.99</p>
+                    <button class="btn btn-warning add-to-cart">Add to Order</button>
+                </div>
+                <div class="col-md-4 menu-item card p-3 text-center" data-category="drinks" data-name="Fresh Juice"
+                    data-price="3.99">
+                    <img src="assets/drink1.jpeg" alt="Fresh Juice">
+                    <h5>Fresh Juice</h5>
+                    <p>$3.99</p>
+                    <button class="btn btn-warning add-to-cart">Add to Order</button>
+                </div>
+                <div id="menuItemsContainer" class="row g-4">
+                    <!-- JS will inject both admin-added and default menu items here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- cart Section -->
+        <section id="cart" class="cart-section container my-5">
+            <h2>Your Order</h2>
+            <ul id="cartItems" class="list-group mb-3"></ul>
+            <h3>Total: $<span id="cartTotal">0</span></h3>
+            <button id="checkoutBtn" class="btn btn-success mt-3">Proceed to Checkout</button>
+        </section>
+
+        <!-- ===== Checkout Section ===== -->
+        <section id="checkout" class="checkout-section container my-5" style="display:none;">
+            <h2>Checkout</h2>
+            <form id="checkoutForm" class="p-3 border rounded">
+                <div class="mb-3">
+                    <input type="text" id="custName" class="form-control" placeholder="Your Name" required>
+                </div>
+                <div class="mb-3">
+                    <input type="text" id="custPhone" class="form-control" placeholder="Phone Number" required>
+                </div>
+                <div class="mb-3">
+                    <textarea id="custAddress" class="form-control" placeholder="Delivery Address" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Place Order</button>
+            </form>
+        </section>
+
+        <!-- Reservation Section -->
+        <section id="reservation" class="section bg-light container-fluid py-5">
+            <div class="row g-0"> <!-- 👈 g-0 gutter hataya -->
+
+                <!-- Left Side (Form - Narrower) -->
+                <div class="col-lg-5 d-flex align-items-center justify-content-center bg-danger text-white p-5">
+                    <form class="w-100" style="max-width: 350px;">
+                        <h2 class="text-center mb-4">Book Your Table</h2>
+
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="Name">
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" placeholder="Email">
+                        </div>
+                        <div class="mb-3">
+                            <input type="tel" class="form-control" placeholder="Phone">
+                        </div>
+                        <div class="mb-3">
+                            <input type="date" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <input type="number" class="form-control" placeholder="Guests">
+                        </div>
+                        <div class="mb-3">
+                            <input type="time" class="form-control">
+                        </div>
+
+                        <button type="submit" class="btn btn-dark w-100">Reserve Now</button>
+                    </form>
+                </div>
+
+                <!-- Right Side (Text + Large Image with Black Overlay) -->
+                <div class="col-lg-7 position-relative p-0"> <!-- 👈 p-0 padding remove -->
+                    <!-- Large Chef Image -->
+                    <img src="assets/chef.jpg" alt="Chef" class="img-fluid w-100"
+                        style="height: 600px; object-fit: cover; border-radius: 0 15px 15px 0;">
+
+                    <!-- Black Transparent Overlay -->
+                    <div class="position-absolute top-0 start-0 w-100 h-100"
+                        style="background: rgba(0,0,0,0.4); border-radius: 0 15px 15px 0;"></div>
+
+                    <!-- Text Overlay -->
+                    <div class="position-absolute text-white text-center"
+                        style="top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                        <h1 class="mb-3 fw-bold">Welcome to Sam Restaurant</h1>
+                        <p style="max-width: 500px; margin: auto; font-size: 1.1rem;">
+                            Enjoy the best dining experience with our delicious menu.
+                            Book your table now and taste the flavors of excellence!
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="section container">
+            <h2 class="text-center mb-5">Gallery</h2>
+            <div class="gallery">
+                <div class="gallery-item"><img src="assets/gallery1.avif" <span></span></div>
+                <div class="gallery-item"><img src="assets/gallery2.avif" <span></span></div>
+                <div class="gallery-item"><img src="assets/gallery3.avif" <span></span></div>
+                <div class="gallery-item"><img src="assets/gallery4.avif" <span></span></div>
+                <div class="gallery-item"><img src="assets/gallery5.avif" <span></span></div>
+            </div>
+        </section>
+
+        <!-- Special Offers Section -->
+        <section id="offers" class="offers">
+            <div class="offers-content">
+                <h2>Weekend Special!</h2>
+                <p>Get 20% off on all desserts. Offer ends in <span id="countdown"></span></p>
+                <button onclick="alert('Reservation page coming soon!')">Order Now</button>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="testimonials section">
+            <h2 class="text-center mb-5">Customers Reviews</h2>
+
+            <!-- Add Review Form First -->
+            <div class="add-review mb-5">
+                <h3>Submit Your Review</h3>
+                <form id="reviewForm">
+                    <input type="text" id="reviewName" placeholder="Your Name" required>
+                    <textarea id="reviewText" placeholder="Write your review here..." required></textarea>
+                    <select id="reviewStars" required>
+                        <option value="">Select Rating</option>
+                        <option value="⭐⭐⭐⭐⭐">5 Stars</option>
+                        <option value="⭐⭐⭐⭐">4 Stars</option>
+                        <option value="⭐⭐⭐">3 Stars</option>
+                        <option value="⭐⭐">2 Stars</option>
+                        <option value="⭐">1 Star</option>
+                    </select>
+                    <button type="submit">Submit Review</button>
+                </form>
+            </div>
+
+            <!-- Existing Customer Reviews -->
+            <div class="testimonial-container">
+
+                <div class="testimonial-card">
+                    <p>"Best food in town! Highly recommend Sam Restaurant."</p>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <h5>Alice</h5>
+                    <small>Food Blogger</small>
+                </div>
+
+                <div class="testimonial-card">
+                    <p>"Amazing ambiance and service. Will visit again!"</p>
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <h5>John</h5>
+                    <small>Regular Customer</small>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section bg-light container">
+            <h2 class="text-center mb-5">Contact Us</h2>
+            <p class="text-center">123 Main Street, City, Country | info@samrestaurant.com | +1234567890</p>
+            <div class="text-center mb-5">
+                <iframe src="https://maps.google.com/maps?q=restaurant&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%"
+                    height="300" style="border:0;"></iframe>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 Sam Restaurant. All rights reserved.</p>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                // Dark/Light Mode Toggle
+                const modeToggle = document.getElementById('modeToggle');
+                modeToggle.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+
+                    // Icon toggle
+                    if (document.body.classList.contains('dark-mode')) {
+                        modeToggle.classList.remove('fa-moon');
+                        modeToggle.classList.add('fa-sun');
+                    } else {
+                        modeToggle.classList.remove('fa-sun');
+                        modeToggle.classList.add('fa-moon');
+                    }
+
+                    // Save preference in localStorage
+                    localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+                });
+
+                // Load theme preference on page load
+                if (localStorage.getItem('theme') === 'dark') {
+                    document.body.classList.add('dark-mode');
+                    modeToggle.classList.remove('fa-moon');
+                    modeToggle.classList.add('fa-sun');
+                }
+
+                // Sidebar Toggle
+                const burger = document.getElementById('burger');
+                const sidebar = document.getElementById('sidebar');
+                burger.addEventListener('click', () => sidebar.classList.toggle('active'));
+
+                document.querySelectorAll('.sidebar a').forEach(link => {
+                    link.addEventListener('click', e => {
+                        e.preventDefault();
+                        sidebar.classList.remove('active');
+                        const target = document.querySelector(link.getAttribute('href'));
+                        if (target) target.scrollIntoView({ behavior: 'smooth' });
+                    });
+                });
+
+                // Menu Category Filter
+                const menuButtons = document.querySelectorAll('.menu-tabs button');
+                const menuItems = document.querySelectorAll('.menu-item');
+
+                menuButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        menuButtons.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        const cat = btn.getAttribute('data-category');
+                        menuItems.forEach(item => {
+                            item.style.display = (cat === 'all' || item.dataset.category === cat) ? 'block' : 'none';
+                        });
+                    });
+                });
+
+                // Cart System
+                let cart = [];
+
+                function attachAddToCart() {
+                    document.querySelectorAll(".add-to-cart").forEach(btn => {
+                        btn.addEventListener("click", () => {
+                            const item = btn.closest(".menu-item");
+                            const name = item.dataset.name || "Unknown";
+                            const price = parseFloat(item.dataset.price) || 0;
+                            const existing = cart.find(i => i.name === name);
+                            if (existing) existing.qty++; else cart.push({ name, price, qty: 1 });
+                            renderCart();
+                        });
+                    });
+                }
+
+                function renderCart() {
+                    const cartItems = document.getElementById("cartItems");
+                    if (!cartItems) return;
+                    cartItems.innerHTML = "";
+                    let total = 0;
+                    cart.forEach((item, i) => {
+                        const itemTotal = item.price * item.qty;
+                        total += itemTotal;
+                        cartItems.innerHTML += `
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          ${item.name} x ${item.qty} - $${itemTotal.toFixed(2)}
+          <button class="btn btn-sm btn-danger" onclick="removeItem(${i})">Remove</button>
+        </li>`;
+                    });
+                    document.getElementById("cartTotal").innerText = total.toFixed(2);
+                }
+
+                window.removeItem = function (i) { cart.splice(i, 1); renderCart(); };
+                attachAddToCart();
+
+                // Checkout Button
+                const checkoutBtn = document.getElementById("checkoutBtn");
+                if (checkoutBtn) {
+                    checkoutBtn.addEventListener("click", () => {
+                        const checkoutSection = document.getElementById("checkout");
+                        if (checkoutSection) {
+                            checkoutSection.style.display = "block";
+                            checkoutSection.scrollIntoView({ behavior: "smooth" });
+                        }
+                    });
+                }
+
+                // Place Order
+                const checkoutForm = document.getElementById("checkoutForm");
+                if (checkoutForm) {
+                    checkoutForm.addEventListener("submit", async (e) => {
+                        e.preventDefault();
+                        if (cart.length === 0) return alert("Your cart is empty!");
+                        const orderData = {
+                            customer: document.getElementById('custName').value,
+                            phone: document.getElementById('custPhone').value,
+                            address: document.getElementById('custAddress').value,
+                            items: cart,
+                            total: cart.reduce((sum, i) => sum + i.price * i.qty, 0)
+                        };
+                        try {
+                            const res = await fetch('http://localhost:5000/orders', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(orderData)
+                            });
+                            if (!res.ok) throw new Error("Network error");
+                            await res.json();
+                            alert("✅ Order placed successfully!");
+                            cart = [];
+                            renderCart();
+                            e.target.reset();
+                        } catch (err) { console.error(err); alert("❌ Failed to place order."); }
+                    });
+                }
+
+                // Reservation Form
+                const reservationForm = document.querySelector('#reservation form');
+                if (reservationForm) {
+                    reservationForm.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        const bookingData = {
+                            name: e.target.querySelector('[placeholder="Name"]').value,
+                            email: e.target.querySelector('[placeholder="Email"]').value,
+                            phone: e.target.querySelector('[placeholder="Phone"]').value,
+                            date: e.target.querySelector('[type="date"]').value,
+                            time: e.target.querySelector('[type="time"]').value,
+                            guests: e.target.querySelector('[placeholder="Guests"]').value
+                        };
+                        try {
+                            const res = await fetch('http://localhost:5000/api/bookings', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(bookingData)
+                            });
+                            if (!res.ok) throw new Error("Network error");
+                            await res.json();
+                            alert('✅ Table booked successfully!');
+                            e.target.reset();
+                        } catch (err) { console.error(err); alert('❌ Failed to book table.'); }
+                    });
+                }
+
+                // Load Menu Dynamically
+                async function loadMenu() {
+                    const container = document.getElementById("menuItemsContainer");
+                    if (!container) return;
+                    container.innerHTML = "";
+                    try {
+                        const res = await fetch("http://localhost:5000/api/menu");
+                        const menu = await res.json();
+                        menu.forEach(item => {
+                            const div = document.createElement("div");
+                            div.className = `col-md-4 menu-item card p-3 text-center`;
+                            div.dataset.category = item.category;
+                            div.dataset.name = item.name;
+                            div.dataset.price = item.price;
+                            div.innerHTML = `
+          <img src="../assets/${item.image}" alt="${item.name}" style="width:100%;height:150px;object-fit:cover;">
+          <h5>${item.name}</h5>
+          <p>$${item.price.toFixed(2)}</p>
+          <button class="btn btn-warning add-to-cart">Add to Order</button>
+        `;
+                            container.appendChild(div);
+                        });
+                        attachAddToCart();
+                    } catch (err) { console.error("Failed to load menu items", err); }
+                }
+
+                loadMenu();
+
+                // ===== Initialize Hero Carousel =====
+                const heroCarouselEl = document.querySelector('#heroCarousel');
+                if (heroCarouselEl) {
+                    const heroCarousel = new bootstrap.Carousel(heroCarouselEl, {
+                        interval: 5000,  // 5 seconds per slide
+                        ride: 'carousel', // auto start
+                        pause: false      // hover par stop na ho
+                    });
+                }
+
+                // ===== Listen for Admin Menu Add Event =====
+                document.addEventListener('menuItemAdded', (e) => {
+                    loadMenu(); // refresh menu automatically when admin adds new item
+                });
+
+            });
+
+        </script>
+</body>
+
+</html>
